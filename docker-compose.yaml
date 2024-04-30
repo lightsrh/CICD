@@ -2,3 +2,9 @@ version: '3'
 services:
   db:
     image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "2022:5432"
+    

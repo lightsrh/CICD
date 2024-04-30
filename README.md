@@ -13,6 +13,11 @@ A brief description of your project.
 
 Create a virtual env, start it and install flask
 
+### Init base de donnée
+```bash
+./init.sh
+```
+
 ## Usage
 
 To run the app : 

@@ -23,7 +23,8 @@ conn = psycopg2.connect(
     host=os.getenv("CITY_API_ADDR"),
     database=os.getenv("CITY_API_DB_URL"),
     user=os.getenv("CITY_API_DB_USER"),
-    password=os.getenv("CITY_API_DB_PWD")
+    password=os.getenv("CITY_API_DB_PWD"),
+    port=os.getenv("CITY_API_PORT")
 )
 
 cur = conn.cursor()
