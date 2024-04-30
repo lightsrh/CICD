@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install requirement
-      run: pip install -r requirements.txt
+      run: pip install -r ./CICD/requirements.txt
     - uses: actions/checkout@v4
     - run: echo "We are launching the lint"
     # - name: Lint with flake8
