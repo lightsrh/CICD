@@ -16,7 +16,7 @@ Create a virtual env, start it and install flask
 ## Usage
 
 To run the app : 
-flask run
+python app.py
 
 ## Contributing
 
