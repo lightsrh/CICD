@@ -3,5 +3,6 @@
 # Add your Python library requirements below
 requests==2.26.0
 python-dotenv
-Flask
+flask
+psycopg2-binary
 pytest

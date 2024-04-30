@@ -1,18 +1,19 @@
 #!/bin/bash
 source .env
 
+echo "POSTGRES_HOST: $POSTGRES_HOST, POSTGRES_PORT: $POSTGRES_PORT, POSTGRES_DB: $POSTGRES_DB, POSTGRES_USER: $POSTGRES_USER, POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
 #créer .pgpass
-echo "$CITY_API_ADDR:$CITY_API_PORT:$CITY_API_DB_URL:$CITY_API_DB_USER:$CITY_API_DB_PWD" > ~/.pgpass
+echo "$POSTGRES_HOST:$POSTGRES_PORT:$POSTGRES_DB:$POSTGRES_USER:$POSTGRES_PASSWORD" > ~/.pgpass
 chmod 600 ~/.pgpass
 cat ~/.pgpass
 
-docker compose down --remove-orphans
-docker compose up -d
+# docker compose down --remove-orphans
+# docker compose up -d
+
 
 #attendre que le container soit prêt
 sleep 5
 
-psql -h $CITY_API_ADDR -U $POSTGRES_USER -d $POSTGRES_DB -p $POSTGRES_PORT -f $(pwd)/dataset/init.sql
-
 #start init_db.py
 python3 init_db.py
+
