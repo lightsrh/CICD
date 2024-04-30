@@ -18,10 +18,7 @@ python-dotenv
 Werkzeug==3.0.2
 
 psycopg2-binary
-pytest
-prometheus-flask-exporter
-uwsgi
-# requirements.txt
+pytest# requirements.txt
 
 # Python library requirements
 blinker==1.8.1
