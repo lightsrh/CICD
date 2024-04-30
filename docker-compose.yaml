@@ -5,8 +5,6 @@ services:
     restart: always
     env_file:
       - .env
-    volumes:
-      - ./dataset:/docker-entrypoint-initdb.d/initdb.sql
     ports:
-      - 5432:5432
+      - "2022:5432"
     
