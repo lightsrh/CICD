@@ -17,37 +17,22 @@ permissions:
 jobs:
 
   ## TO DO - Need to check this code
-  # release:
-  #   permissions:
-  #     contents: write # for goreleaser/goreleaser-action to create a GitHub release
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Install Go
-  #       uses: actions/setup-go@v5
-  #       with:
-  #         go-version: "1.22"
-  #         check-latest: true
-  #     - name: Unshallow
-  #       run: git fetch --prune --unshallow
-  #     - name: Create release
-  #       uses: goreleaser/goreleaser-action@v3
-  #       with:
-  #         args: release --rm-dist --release-notes ./RELEASE_NOTES.md
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  check_cves_for_mods:
+  release:
+    permissions:
+      contents: write # for goreleaser/goreleaser-action to create a GitHub release
     runs-on: ubuntu-latest
-    name: Find modified CVEs since the date
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install Trivy
-        run: |
-          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
-
-      - name: Scan Docker Image for CVEs
-        run: |
-          trivy image sarahth/cicd-app-1:v1.0.0
-  
+      - uses: actions/checkout@v4
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+          check-latest: true
+      - name: Unshallow
+        run: git fetch --prune --unshallow
+      - name: Create release
+        uses: goreleaser/goreleaser-action@v3
+        with:
+          args: release --rm-dist --release-notes ./RELEASE_NOTES.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
