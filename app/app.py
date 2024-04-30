@@ -1,7 +1,5 @@
 from flask import Flask
 import json
-import os
-from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -20,7 +18,3 @@ def city_get():
 @app.route("/_health")
 def health_check():
     return "", 204
-
-if __name__ == "__main__":
-    load_dotenv()
-    app.run(host=os.getenv("CITY_API_ADDR"), port=os.getenv("CITY_API_PORT"), debug=True)
