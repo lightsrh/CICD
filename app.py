@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import json
 import os
 from dotenv import load_dotenv
@@ -9,16 +9,17 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route('/city', methods = ['POST'])
+@app.post('/city')
 def createCity():
     data = request.json
+    print(data.get('id'))
     print(data.get('department_code'))
     print(data.get('insee_code'))
     print(data.get('zip_code'))
     print(data.get('name'))
     print(data.get('lat'))
     print(data.get('lon'))
-    return data
+    return data, 201
 
 @app.get('/city')
 def city_get():
@@ -28,7 +29,7 @@ def city_get():
 
     return cities_json, 200
 
-@app.route("/_health")
+@app.get("/_health")
 def health_check():
     return "", 204
 
