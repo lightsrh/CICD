@@ -72,9 +72,9 @@ Un rapport **détaillé** des actions réalisé est attendu. Un lien vers un dé
 
 5) Écrivez un fichier `Dockerfile` à la racine de votre projet. Testez que votre image Docker est correcte.
 
-6) Écrivez un workflow GitHub Actions `ci` pour qu'un linter soit exécuté à chaque push.
+6) Écrivez un workflow GitHub Actions `ci` pour qu'un linter soit exécuté à chaque push. [:heavy_check_mark:]
 
-7) Modifiez le workflow pour que les tests s'exécutent à chaque push.
+7) Modifiez le workflow pour que les tests s'exécutent à chaque push. [:heavy_check_mark:]
 
 8) Modifiez le workflow pour qu'un build de l'image Docker soit réalisé à chaque push.
 

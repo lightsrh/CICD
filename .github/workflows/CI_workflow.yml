@@ -1,9 +1,12 @@
-name: GitHub Pytest Workflow
+name: CI
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on: [push]
+    
 
 jobs:
+
+  # Lancement du linter, analyse le code source pour trouver bugs, erreur de syntaxe etc...
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -19,6 +22,7 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+  # Lancement des test, écris dans le fichier ./app/test_app.py
   test:
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +32,7 @@ jobs:
     - name: 🍏 Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11.4'  # Version qu'on utilise
+        python-version: '3.12.2'  # Version qu'on utilise
 
     - name: 💡 Install dependencies
       run: |

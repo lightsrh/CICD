@@ -1,0 +1,50 @@
+name: Docker
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+
+on:
+  push:
+    branches: 
+      - workflow
+
+jobs:
+
+  # Lancement du dockerfile et build
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🖥️ Check out the repository
+        uses: actions/checkout@v4
+
+      - name: 🔄 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: 📥 Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: 🐳 Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: 📦 Build Docker image
+        run: docker build -t my-image-name .
+
+      - name: 🚀 Run Docker container
+        run: docker run -d --name my-container-name my-image-name
+
+      - name: 🛠️ Verify the container is running
+        run: docker ps -a
+  
+  # Push de l'image Docker sur le DockerHub avec pour tag `city-api:latest`.
+  dockerhub_push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Push on dockerhub
+      run: echo "push de l'image sur le dockerhub"
