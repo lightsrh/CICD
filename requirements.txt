@@ -1,0 +1,7 @@
+# requirements.txt
+
+# Add your Python library requirements below
+requests==2.26.0
+dotenv
+os
+flask

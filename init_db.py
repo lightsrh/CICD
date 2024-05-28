@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import psycopg2
 import json
+from dotenv import load_dotenv
 
 def insert_data(conn, cur, data):
     for record in data:
@@ -21,12 +22,14 @@ def insert_data(conn, cur, data):
         cur.execute(sql, values)
 load_dotenv()
 
+load_dotenv()
+
 conn = psycopg2.connect(
-    host=os.getenv("CITY_API_ADDR"),
-    database=os.getenv("CITY_API_DB_URL"),
-    user=os.getenv("CITY_API_DB_USER"),
-    password=os.getenv("CITY_API_DB_PWD"),
-    port=os.getenv("CITY_API_PORT")
+    host=os.environ.get('CITY_API_ADDR'),
+    dbname=os.environ.get('CITY_API_DB_URL'),
+    user=os.environ.get('CITY_API_DB_USER'),
+    password=os.environ.get('CITY_API_DB_PWD'),
+    port=os.environ.get('CITY_API_PORT')
 )
 
 cur = conn.cursor()
