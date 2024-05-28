@@ -6,5 +6,5 @@ services:
     env_file:
       - .env
     ports:
-      - "2022:5432"
+      - "5432:5432"
     

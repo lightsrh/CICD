@@ -22,12 +22,13 @@ def insert_data(conn, cur, data):
 
 load_dotenv()
 
+
 conn = psycopg2.connect(
     host=os.environ.get('CITY_API_ADDR'),
-    dbname=os.environ.get('CITY_API_DB_URL'),
-    user=os.environ.get('CITY_API_DB_USER'),
-    password=os.environ.get('CITY_API_DB_PWD'),
-    port=os.environ.get('CITY_API_PORT')
+    dbname=os.environ.get('POSTGRES_DB'),
+    user=os.environ.get('POSTGRES_USER'),
+    password=os.environ.get('POSTGRES_PASSWORD'),
+    port=os.environ.get('POSTGRES_PORT')
 )
 
 cur = conn.cursor()
