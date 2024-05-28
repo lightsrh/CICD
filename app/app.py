@@ -82,4 +82,10 @@ def city_get():
 
 @app.route("/_health")
 def health_check():
-    return "", 204
+    # Retourner un code de statut 204 pour indiquer que l'application est en bonne santé si la connexion à la base de données est établie
+    try:
+        conn = get_db_connection()
+        conn.close()
+        return "", 204
+    except psycopg2.Error:
+        return "", 500
