@@ -11,4 +11,5 @@ requests==2.26.0
 python-dotenv
 flask
 psycopg2-binary
-pytest
+pytestflake8==4.0.1
+pytest==7.2.2
