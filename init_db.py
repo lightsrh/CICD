@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 def insert_data(conn, cur, data):
     for record in data:
-        id = record["id"]
         department_code = record["department_code"]
         insee_code = record["insee_code"]
         zip_code = record["zip_code"]
@@ -14,8 +13,8 @@ def insert_data(conn, cur, data):
         lon = record["lon"]
 
         # SQL INSERT statement
-        sql = "INSERT INTO city (id, department_code, insee_code, zip_code, name, lat, lon) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        values = (id, department_code, insee_code, zip_code, name, lat, lon)
+        sql = "INSERT INTO city ( department_code, insee_code, zip_code, name, lat, lon) VALUES ( %s, %s, %s, %s, %s, %s)"
+        values = (department_code, insee_code, zip_code, name, lat, lon)
 
         # Execute the SQL statement
         cur.execute(sql, values)
