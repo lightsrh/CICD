@@ -4,10 +4,11 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches: 
-      - main
+      - workflow
 
 jobs:
-  # Lancement du dockerfile, build du container et push sur Dockerhub
+
+  # Lancement du dockerfile et build
   docker:
     runs-on: ubuntu-latest
 
@@ -18,25 +19,32 @@ jobs:
       - name: 🔄 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-#      - name: 📦 Build Docker image
-#        run: docker build -t city-api:latest .
-#
-#      - name: 🚀 Run Docker container
-#        run: docker run -d --name container-project city-api
-#
-#      - name: 🛠️ Verify the container is running
-#        run: docker ps -a
-  
-      # Push de l'image Docker sur le DockerHub avec pour tag `city-api:latest`.
+      - name: 📥 Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: 🐳 Log in to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 🛠️ Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: bplanche/cicd:latest
+      - name: 📦 Build Docker image
+        run: docker build -t my-image-name .
+
+      - name: 🚀 Run Docker container
+        run: docker run -d --name my-container-name my-image-name
+
+      - name: 🛠️ Verify the container is running
+        run: docker ps -a
+  
+  # Push de l'image Docker sur le DockerHub avec pour tag `city-api:latest`.
+  dockerhub_push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Push on dockerhub
+      run: echo "push de l'image sur le dockerhub"
