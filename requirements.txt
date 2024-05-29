@@ -5,9 +5,7 @@ requests==2.26.0
 python-dotenv
 flask
 psycopg2-binary
-pytest# requirements.txt
-
-# Python library requirements
+pytest
 blinker==1.8.1
 click==8.1.7
 itsdangerous==2.2.0
