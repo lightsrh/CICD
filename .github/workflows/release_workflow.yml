@@ -49,5 +49,5 @@ jobs:
 
       - name: Scan Docker Image for CVEs
         run: |
-          trivy image sarahth/getting-started:latest
+          trivy image sarahth/cicd-app-1:v1.0.0
   
