@@ -37,23 +37,17 @@ jobs:
   #         args: release --rm-dist --release-notes ./RELEASE_NOTES.md
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  check_cves_for_mods:
+  scan_cves:
     runs-on: ubuntu-latest
-    name: Find modified CVEs since the date
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
-      - name: Modified CVEs checker
-        uses: doshyt/cve-monitor@v1.24
-        id: check
-        with:
-          cve-list-path: '../cvelist.txt'
-      - name: Create issue
-        uses: JasonEtco/create-an-issue@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CVEs: ${{ steps.check.outputs.cves }}
-        with:
-          update_existing: true
-        if: ${{ steps.check.outputs.modified_cves_number != '0' }}
+
+      - name: Install Trivy
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Scan Docker Image for CVEs
+        run: |
+          trivy image sarahth/getting-started:latest
   
