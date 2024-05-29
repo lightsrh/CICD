@@ -1,13 +1,13 @@
 import json
-from flask import Flask, request, jsonify
+
 import psycopg2
 import os
-from dotenv import load_dotenv
-
+import dotenv
+import flask
 # Charger les variables d'environnement à partir du fichier .env
-load_dotenv()
+dotenv.load_dotenv()
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 # Fonction pour établir une connexion à la base de données
 def get_db_connection():
@@ -22,11 +22,11 @@ def get_db_connection():
 
 @app.route('/city', methods=['POST'])
 def createCity():
-    data = request.get_json()
+    data = flask.request.get_json()
     print(data)
 
     if not isinstance(data, list):
-        return jsonify({"error": "Request body must be a list of objects"}), 400
+        return flask.jsonify({"error": "Request body must be a list of objects"}), 400
 
     # Établir une connexion à la base de données
     conn = get_db_connection()
@@ -46,7 +46,7 @@ def createCity():
             conn.rollback()
             cur.close()
             conn.close()
-            return jsonify({"error": "Missing fields in one of the records"}), 400
+            return flask.jsonify({"error": "Missing fields in one of the records"}), 400
 
         # Insérer les données dans la base de données
         query = "INSERT INTO city (department_code, insee_code, zip_code, name, lat, lon) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id"
@@ -63,7 +63,7 @@ def createCity():
     print("database connection closed")
 
     # Retourner les données et le code de statut HTTP
-    return jsonify({"message": "Cities added successfully"}), 201
+    return flask.jsonify({"message": "Cities added successfully"}), 201
 
 @app.route("/")
 def hello_world():
