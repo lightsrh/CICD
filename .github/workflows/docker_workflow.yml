@@ -7,7 +7,6 @@ on:
       - main
 
 jobs:
-
   # Lancement du dockerfile, build du container et push sur Dockerhub
   docker:
     runs-on: ubuntu-latest
