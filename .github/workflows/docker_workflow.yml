@@ -2,7 +2,9 @@ name: Docker
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:
-  [push]
+  push:
+    branches: 
+      - main
 
 jobs:
   # Lancement du dockerfile, build du container et push sur Dockerhub
