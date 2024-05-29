@@ -13,6 +13,7 @@ cat ~/.pgpass
 
 #attendre que le container soit prêt
 sleep 5
+pwd = os.getenv('PGPASSWORD')
 
 #start init_db.py
 python3 init_db.py
