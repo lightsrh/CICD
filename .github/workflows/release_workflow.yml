@@ -37,13 +37,23 @@ jobs:
   #         args: release --rm-dist --release-notes ./RELEASE_NOTES.md
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  main:
+  check_cves_for_mods:
     runs-on: ubuntu-latest
+    name: Find modified CVEs since the date
     steps:
-      # X.X.X - Latest version available at: https://github.com/kunalnagarco/action-cve/releases
-      - uses: kunalnagarco/action-cve@v1.13.0
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Modified CVEs checker
+        uses: doshyt/cve-monitor@v1.24
+        id: check
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          count: 15
-          severity: low,medium
+          cve-list-path: '../cvelist.txt'
+      - name: Create issue
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CVEs: ${{ steps.check.outputs.cves }}
+        with:
+          update_existing: true
+        if: ${{ steps.check.outputs.modified_cves_number != '0' }}
   
