@@ -47,7 +47,7 @@ jobs:
       run: |
         ./init.sh
         python3 init_db.py
-      with:
+      env:
         password: ${{ secrets.BD_PASSWORD }}
 
     - name: Launching the pytest
