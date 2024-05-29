@@ -1,7 +1,7 @@
 # requirements.txt
 
 
-# Add your Python library requirements below
+# Python library requirements
 requests==2.26.0
 flask
 blinker==1.8.1
