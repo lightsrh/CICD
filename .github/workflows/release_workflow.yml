@@ -6,8 +6,8 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 
 on:
   push:
-    branches: 
-      - main
+    # branches: 
+    #   - main
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+" # Push events to matching v*, i.e. v1.0, v20.15.10
 
@@ -17,22 +17,32 @@ permissions:
 jobs:
 
   ## TO DO - Need to check this code
-  release:
-    permissions:
-      contents: write # for goreleaser/goreleaser-action to create a GitHub release
+  # release:
+  #   permissions:
+  #     contents: write # for goreleaser/goreleaser-action to create a GitHub release
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Install Go
+  #       uses: actions/setup-go@v5
+  #       with:
+  #         go-version: "1.22"
+  #         check-latest: true
+  #     - name: Unshallow
+  #       run: git fetch --prune --unshallow
+  #     - name: Create release
+  #       uses: goreleaser/goreleaser-action@v3
+  #       with:
+  #         args: release --rm-dist --release-notes ./RELEASE_NOTES.md
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Go
-        uses: actions/setup-go@v5
+      # X.X.X - Latest version available at: https://github.com/kunalnagarco/action-cve/releases
+      - uses: kunalnagarco/action-cve@vX.X.X
         with:
-          go-version: "1.22"
-          check-latest: true
-      - name: Unshallow
-        run: git fetch --prune --unshallow
-      - name: Create release
-        uses: goreleaser/goreleaser-action@v3
-        with:
-          args: release --rm-dist --release-notes ./RELEASE_NOTES.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          count: 15
+          severity: low,medium
+  
