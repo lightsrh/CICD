@@ -45,9 +45,8 @@ jobs:
     
     - name: lanching the databases
       run: |
+        export PGPASSWORD="${{ secrets.BD_PASSWORD }}"
         ./init.sh
-      env:
-        password: ${{ secrets.BD_PASSWORD }}
 
     - name: Launching the pytest
       run: |
