@@ -46,7 +46,6 @@ jobs:
     - name: lanching the databases
       run: |
         ./init.sh
-        python3 init_db.py
       env:
         password: ${{ secrets.BD_PASSWORD }}
 
