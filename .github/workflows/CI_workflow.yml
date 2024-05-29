@@ -33,8 +33,10 @@ jobs:
       with:
         python-version: '3.12.2'  # Version qu'on utilise
     
-    - name: Opening the environement
-      run: source .venv/bin/activate
+    - name: Setting up the environement
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
     
     - name: lanching the databases
       run: |
