@@ -47,7 +47,7 @@ jobs:
       run: |
         ./init.sh
       env:
-        PGPASSWORD: ${{ secrets.BD_PASSWORD }}
+        PGPASSWORD: ${{ secrets.DB_PASSWORD }}
 
     - name: Launching the pytest
       run: |
