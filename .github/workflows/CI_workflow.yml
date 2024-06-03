@@ -40,7 +40,7 @@ jobs:
           --health-retries 5
         ports:
           # Maps tcp port 5432 on service container to the host
-          - 5432:5432
+          - 5433:5432
 
     steps:
     - name: 🖥️ Check out the repository
@@ -63,10 +63,10 @@ jobs:
         POSTGRES_USER: city_api 
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_HOST: 127.0.0.1
-        POSTGRES_PORT: 5432
+        POSTGRES_PORT: 5433
     
     - name: test de connection
-      run: psql -U city_api -h 127.0.0.1 -d city_api -c "SELECT 1"
+      run: psql -U city_api -h 127.0.0.1 -p 5433 -d city_api -c "SELECT 1"
       env: 
         PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
