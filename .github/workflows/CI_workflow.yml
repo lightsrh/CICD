@@ -39,9 +39,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Lanching the databases
-      run: | 
-          psql -h localhost -U city_api -d city_api -p 5432 -f PGPASSWORD/dataset/init.sql
-          python3 init_db.py
+      run: ./init.sh
       env:
         PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
