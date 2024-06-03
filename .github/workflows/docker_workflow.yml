@@ -39,4 +39,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: YOUR_DOCKERHUB_USERNAME/YOUR_REPOSITORY_NAME:latest
+          tags: bplanche/cicd:latest
