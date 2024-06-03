@@ -51,6 +51,7 @@ jobs:
     - name: check dependencies
       run: | 
         echo "les trucs installé:"
+        source .venv/bin/activate
         psycopg2-binary --version
         pytest --version
     
@@ -62,6 +63,7 @@ jobs:
     - name: Launching the pytest
       run: |
         echo "Test with pytest"
+        source .venv/bin/activate
         pytest
 
     - name: 🎉 We are done !!
