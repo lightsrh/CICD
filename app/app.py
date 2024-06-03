@@ -1,6 +1,6 @@
 import json
 import os
-from prometheus_client import Counter, Gauge, generate_latest
+from prometheus_client import Counter, Gauge, start_http_server, generate_latest
 import random
 import psycopg2
 import dotenv
@@ -82,7 +82,6 @@ def createCity():
     # Retourner les données et le code de statut HTTP
     return jsonify({"message": "Cities added successfully"}), 201
 
-
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
@@ -110,9 +109,10 @@ def health_check():
         return "", 500
 
 
-@app.route('/metrics',  methods=['GET'])
+
+@app.route('/metrics', methods=['GET'])
 def get_data():
     """Returns all data as plaintext."""
     number_of_requests.inc()
-    current_memory_usage.labels('server-a').set(random.randint(10000, 90000))
+    current_memory_usage.labels('server-a').set(random.randint(10000,90000))
     return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
