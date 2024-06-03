@@ -23,6 +23,22 @@ jobs:
   # Lancement des test, écris dans le fichier ./app/test_app.py
   test:
     runs-on: ubuntu-latest
+    services: 
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          port: ${{ secrets.POSTGRES_PORT }}
+        ports:
+          - port:port
+        options: >-
+          --health-cmd="pg_isready -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
     - name: 🖥️ Check out the repository
       uses: actions/checkout@v4
@@ -41,21 +57,16 @@ jobs:
       run: |
         python -m venv .venv
         source .venv/bin/activate
-    
+
     - name: lanching the databases
       run: |
         ./init.sh
       env:
-        # POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        # POSTGRES_USER: ${{ secrets.POSTGRES_USER }} 
-        # POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        # POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-        # POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-        POSTGRES_DB: city_api
-        POSTGRES_USER: city_api
-        POSTGRES_PASSWORD: city_api
-        POSTGRES_HOST: 127.0.0.1
-        POSTGRES_PORT: 5432
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }} 
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
 
     - name: Launching the pytest
       run: |
