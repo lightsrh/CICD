@@ -1,25 +1,42 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres:latest
-    restart: always
     volumes:
-        - postgres_volume:/var/lib/postgresql/data
+      - postgres_volume:/var/lib/postgresql/data
     env_file:
       - .env
     ports:
       - "5432:5432"
+
   app:
-    build: 
+    build:
       context: .
-      dockerfile: Dockerfile
     env_file:
       - .env
     ports:
       - "2022:2022"
-    restart: always
     depends_on:
       - db
 
+  prometheus-cicd:
+    image: bitnami/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus-cicd.yaml:/opt/bitnami/prometheus/conf/prometheus.yml
+      - prom_data:/bitnami/prometheus
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./grafana:/etc/grafana/provisioning
+
 volumes:
+  prom_data:
   postgres_volume:
