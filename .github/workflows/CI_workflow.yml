@@ -23,8 +23,6 @@ jobs:
   # Lancement des test, écris dans le fichier ./app/test_app.py
   test:
     runs-on: ubuntu-latest
-    container:
-      image: timbru31/ruby-node:latest
 
     steps:
     - name: 🖥️ Check out the repository
