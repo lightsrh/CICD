@@ -33,7 +33,7 @@ jobs:
     - name: 🍏 Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12.2'  # Version qu'on utilise
+        python-version: '3.11'  # Version qu'on utilise
     
     - name: 💡 Install dependencies
       run: |
