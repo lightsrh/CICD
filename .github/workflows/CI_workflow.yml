@@ -37,8 +37,9 @@ jobs:
       run: |
         python -m venv .venv
         source .venv/bin/activate
+        pip install -r requirement.txt
 
-    - name: lanching the databases
+    - name: Lanching the databases
       run: docker compose up --build -d
       env:
         POSTGRES_DB: city_api
