@@ -55,16 +55,16 @@ jobs:
         pip show psycopg2-binary
         pip show pytest
     
-    # - name: test de connection
-    #   run: psql -U city_api -h localhost -p 5432 -d city_api -c "SELECT 1"
-    #   env: 
-    #     PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+    - name: test de connection
+      run: psql -U city_api -h localhost -p 5432 -d city_api -c "SELECT 1"
+      env: 
+        PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
-    # - name: Launching the pytest
-    #   run: |
-    #     echo "Test with pytest"
-    #     source .venv/bin/activate
-    #     pytest
+    - name: Launching the pytest
+      run: |
+        echo "Test with pytest"
+        source .venv/bin/activate
+        pytest
 
     - name: 🎉 We are done !!
       run: echo "The end"
