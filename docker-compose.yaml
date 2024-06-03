@@ -47,6 +47,7 @@ services:
       - ./grafana:/etc/grafana/provisioning
     depends_on:
       - app
+      - prometheus-cicd
 
 volumes:
   prom_data:
