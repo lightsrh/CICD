@@ -19,8 +19,6 @@ RUN pip install --no-cache-dir -r requirements.txt -v
 # Copy the source code into the container.
 COPY . .
 
-RUN prout
-
 # Expose the port that the application listens on.
 EXPOSE 2022
 
