@@ -52,8 +52,8 @@ jobs:
       run: | 
         echo "les trucs installé:"
         source .venv/bin/activate
-        psycopg2-binary --version
-        pytest --version
+        pip show psycopg2-binary
+        pip show pytest
     
     # - name: test de connection
     #   run: psql -U city_api -h localhost -p 5432 -d city_api -c "SELECT 1"
