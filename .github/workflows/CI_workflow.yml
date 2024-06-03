@@ -1,7 +1,9 @@
 name: CI
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-
-on: [push]  
+on:
+  push:
+    branches: 
+      - main  
 
 jobs:
 
@@ -32,11 +34,22 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.12.2'  # Version qu'on utilise
-
+    
     - name: 💡 Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Setting up the environement
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+    
+    - name: lanching the databases
+      run: |
+        ./init.sh
+      env:
+        PGPASSWORD: ${{ secrets.DB_PASSWORD }}
 
     - name: Launching the pytest
       run: |
