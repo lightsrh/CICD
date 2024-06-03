@@ -46,11 +46,17 @@ jobs:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_HOST: localhost
         POSTGRES_PORT: 5432
+
+    - name: check dependencies
+      run: | 
+        echo "les trucs installé:"
+        psycopg2-binary --version
+        pytest --version
     
-    # - name: test de connection
-    #   run: psql -U city_api -h localhost -p 5432 -d city_api -c "SELECT 1"
-    #   env: 
-    #     PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+    - name: test de connection
+      run: psql -U city_api -h localhost -p 5432 -d city_api -c "SELECT 1"
+      env: 
+        PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
     - name: Launching the pytest
       run: |
