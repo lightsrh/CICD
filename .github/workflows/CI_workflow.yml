@@ -42,7 +42,10 @@ jobs:
       run: ./init.sh
       env:
         PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+        POSTGRES_DB: city_api
+        POSTGRES_USER: city_api
 
     - name: Launching the pytest
       run: |
