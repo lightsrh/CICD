@@ -54,7 +54,7 @@ jobs:
         POSTGRES_DB: city_api
         POSTGRES_USER: city_api
         POSTGRES_PASSWORD: city_api
-        POSTGRES_HOST: cicd-db-1
+        POSTGRES_HOST: 127.0.0.1
         POSTGRES_PORT: 5432
 
     - name: Launching the pytest
