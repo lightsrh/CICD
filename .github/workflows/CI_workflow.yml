@@ -54,7 +54,7 @@ jobs:
         POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
 
     - name: test de connection
-      run: psql -U ${{ secrets.POSTGRES_USER }}  -h 0.0.0.0 -d ${{ secrets.POSTGRES_DB }} -c "SELECT 1"
+      run: psql -U city_api -h 0.0.0.0 -d city_api -c "SELECT 1"
       env: 
         PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
