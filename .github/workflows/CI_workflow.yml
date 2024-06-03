@@ -32,17 +32,12 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.12.2'  # Version qu'on utilise
-    
-    - name: 💡 Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
 
     - name: Setting up the environement
       run: |
         python -m venv .venv
         source .venv/bin/activate
-
+    
     - name: lanching the databases
       run: |
         docker compose up --build -d
@@ -52,7 +47,7 @@ jobs:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
         POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
-
+    
     - name: test de connection
       run: psql -U city_api -h 0.0.0.0 -d city_api -c "SELECT 1"
       env: 
