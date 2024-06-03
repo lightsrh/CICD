@@ -1,12 +1,28 @@
 import json
-import psycopg2
 import os
+from prometheus_client import Counter, Gauge, start_http_server, generate_latest
+import random
+import psycopg2
 import dotenv
-import flask
+from flask import Response, Flask, request, jsonify
+
 # Charger les variables d'environnement à partir du fichier .env
 dotenv.load_dotenv()
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
+
+CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
+
+number_of_requests = Counter(
+    'number_of_requests',
+    'The number of requests, its a counter so the value can increase or reset to zero.'
+)
+
+current_memory_usage = Gauge(
+    'current_memory_usage_locally',
+    'The current value of memory usage, its a gauge so it can go up or down.',
+    ['server_name']
+)
 
 # Fonction pour établir une connexion à la base de données
 def get_db_connection():
@@ -21,11 +37,11 @@ def get_db_connection():
 
 @app.route('/city', methods=['POST'])
 def createCity():
-    data = flask.request.get_json()
+    data = request.get_json()
     print(data)
 
     if not isinstance(data, list):
-        return flask.jsonify({"error": "Request body must be a list of objects"}), 400
+        return jsonify({"error": "Request body must be a list of objects"}), 400
 
     # Établir une connexion à la base de données
     conn = get_db_connection()
@@ -45,7 +61,7 @@ def createCity():
             conn.rollback()
             cur.close()
             conn.close()
-            return flask.jsonify({"error": "Missing fields in one of the records"}), 400
+            return jsonify({"error": "Missing fields in one of the records"}), 400
 
         # Insérer les données dans la base de données
         query = "INSERT INTO city (department_code, insee_code, zip_code, name, lat, lon) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id"
@@ -62,7 +78,7 @@ def createCity():
     print("database connection closed")
 
     # Retourner les données et le code de statut HTTP
-    return flask.jsonify({"message": "Cities added successfully"}), 201
+    return jsonify({"message": "Cities added successfully"}), 201
 
 @app.route("/")
 def hello_world():
@@ -88,3 +104,12 @@ def health_check():
         return "", 204
     except psycopg2.Error:
         return "", 500
+
+
+
+@app.route('/metrics', methods=['GET'])
+def get_data():
+    """Returns all data as plaintext."""
+    number_of_requests.inc()
+    current_memory_usage.labels('server-a').set(random.randint(10000,90000))
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
