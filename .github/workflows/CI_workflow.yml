@@ -53,6 +53,11 @@ jobs:
         POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
         POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
 
+    - name: test de connection
+      run: psql -U POSTGRES_USER -h POSTGRES_HOST -d POSTGRES_DB -c "SELECT 1"
+      env: 
+        PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
     - name: Launching the pytest
       run: |
         echo "Test with pytest"
