@@ -39,14 +39,14 @@ jobs:
         source .venv/bin/activate
         pip install -r requirements.txt
 
-    # - name: Lanching the databases
-    #   run: docker compose up db --build -d
-    #   env:
-    #     POSTGRES_DB: city_api
-    #     POSTGRES_USER: city_api 
-    #     POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-    #     POSTGRES_HOST: localhost
-    #     POSTGRES_PORT: 5432
+    - name: Lanching the databases
+      run: docker compose up db --build -d
+      env:
+        POSTGRES_DB: city_api
+        POSTGRES_USER: city_api 
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
 
     - name: check dependencies
       run: | 
@@ -54,11 +54,6 @@ jobs:
         source .venv/bin/activate
         pip show psycopg2-binary
         pip show pytest
-    
-    - name: test de connection
-      run: psql -U city_api -h localhost -p 5432 -d city_api -c "SELECT 1"
-      env: 
-        PGPASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
 
     - name: Launching the pytest
       run: |
