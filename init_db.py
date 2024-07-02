@@ -39,12 +39,13 @@ def insert_data(conn, cur, data):
 
         # SQL INSERT statement
         sql = """
-        INSERT INTO city (id, department_code, insee_code, zip_code, name, lat, lon) 
-        VALUES ((SELECT nextval('city_id_seq')), %s, %s, %s, %s, %s, %s)
+        INSERT INTO city (department_code, insee_code, zip_code, name, lat, lon) 
+        VALUES (%s, %s, %s, %s, %s, %s)
         """
         values = (department_code, insee_code, zip_code, name, lat, lon)
         # Execute the SQL statement
         cur.execute(sql, values)
+
 
 # Load environment variables
 load_dotenv()
@@ -58,10 +59,6 @@ conn = psycopg2.connect(
 )
 
 cur = conn.cursor()
-
-# # Drop the existing table and sequence to ensure a clean state
-# cur.execute("DROP TABLE IF EXISTS city")
-# cur.execute("DROP SEQUENCE IF EXISTS city_id_seq")
 
 # Create sequence and table
 create_sequence(conn, cur)
