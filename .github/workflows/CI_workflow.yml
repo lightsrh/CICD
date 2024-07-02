@@ -56,7 +56,7 @@ jobs:
         sleep 1
         done
 
-    - name: Lanching the databases
+    - name: Lanching the database
       run: ./init.sh
       env:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
