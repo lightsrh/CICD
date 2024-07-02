@@ -1,9 +1,7 @@
 name: CI
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-  push:
-    branches: 
-      - main  
+  [push]
 
 jobs:
 
@@ -23,9 +21,20 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-  # Lancement des test, écris dans le fichier ./app/test_app.py
+  # Lancement des test, écris dans le fichier ./app/test_app.py 
   test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: city_api
+          POSTGRES_USER: city_api
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+
     steps:
     - name: 🖥️ Check out the repository
       uses: actions/checkout@v4
@@ -34,25 +43,31 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.12.2'  # Version qu'on utilise
-    
-    - name: 💡 Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
 
     - name: Setting up the environement
       run: |
         python -m venv .venv
         source .venv/bin/activate
-    
-    - name: lanching the databases
+        pip install -r requirements.txt
+
+    - name: Wait for PostgreSQL to be ready
       run: |
-        ./init.sh
+        until pg_isready -h localhost -p 5432; do
+        sleep 1
+        done
+
+    - name: Lanching the database
+      run: ./init.sh
       env:
-        PGPASSWORD: ${{ secrets.DB_PASSWORD }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+        POSTGRES_DB: city_api
+        POSTGRES_USER: city_api
 
     - name: Launching the pytest
       run: |
+        source .venv/bin/activate
         echo "Test with pytest"
         pytest
 
