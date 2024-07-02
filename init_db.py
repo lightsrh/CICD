@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 import psycopg2
 import json
-from dotenv import load_dotenv
 
 def create_sequence(conn, cur):
     # SQL CREATE SEQUENCE statement
