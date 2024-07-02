@@ -1,19 +1,29 @@
-# Project Title
+# CI/CD Project
 
-A brief description of your project.
+This project aims to create a CI/CD pipeline for a web service that manages a database of cities. The project includes setting up a Postgres database, creating a Flask web service, writing tests, building Docker images, and deploying the application using Helm on k3s. The full code and detailed report are available at the [GitHub repository](https://github.com/lightsrh/CICD).
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
+- [CI/CD](#cicd)
+- [Prerequisites](#prerequisites)
+- [Questions](#questions)
 
 ## Installation
 
-Create a virtual env, start it and install flask
+Create a virtual environment, activate it, and install the requirements:
 
-### Init base de donnée
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Initialize the Database
+
+To initialize the database, run the following script:
 
 ```bash
 ./init.sh
@@ -21,78 +31,77 @@ Create a virtual env, start it and install flask
 
 ## Usage
 
-To run the app : 
-python app.py
+To run the app:
+
+```bash
+python3 app/__main__.py
+```
+
+You can then go to <http://127.0.0.1:2022> and start playing (you will see the results of the endpoints in the vscode console or if you are using a software like Postman or APIDog)
 
 ## Contributing
 
-Sarah THEOULLE
-Giada Flora DE MARTINO
-Benoît PLANCHE
+- Sarah THEOULLE
+- Giada Flora DE MARTINO
+- Benoît PLANCHE
 
-# CI/CD
+## CI/CD
 
-Un rapport **détaillé** des actions réalisé est attendu. Un lien vers un dépôt GitHub devra y figurer.
+A detailed report of the actions performed is expected. A link to a GitHub repository should be included.
 
-## Prérequis
+## Prerequisites
 
-- docker
-- docker-compose
+- Docker
+- Docker Compose
 
 ## Questions
 
-1) Créez un fichier `docker-compose.yml` et ajoutez-y un service `db` s'appuyant sur l'image Docker `postgres:latest`.
+### 1) Create a `docker-compose.yml` file and add a `db` service using the `postgres:latest` Docker image
 
-2) Créez une base de données `city_api` avec une table `city` contenant les colonnes suivantes :
-    - `id`, un entier non signé non nul, clé primaire de la colonne ;
-    - `department_code`, une chaîne de caractères non nulle ;
-    - `insee_code`, une chaîne de caractères ;
-    - `zip_code`, une chaîne de caractères ;
-    - `name`, une chaîne de caractères non nulle ;
-    - `lat`, un flottant non nul ;
-    - `lon`, un flottant non nul.
+### 2) Create a `city_api` database with a `city` table containing the following columns
 
-3) Dans le langage de votre choix, créez un service web ayant les spécifications suivantes :
-    - `POST /city` avec pour corps de la requête un JSON au format décrit plus bas doit retourner un code `201` et enregistrer la ville dans la base de données ;
-    - `GET /city` doit retourner un code `200` avec la liste des villes au format JSON ;
-    - `GET /_health` doit retourner un code `204`.
+- `id`: an unsigned integer, primary key;
+- `department_code`: a non-null string;
+- `insee_code`: a string;
+- `zip_code`: a string;
+- `name`: a non-null string;
+- `lat`: a non-null float;
+- `lon`: a non-null float.
 
-    Vous pouvez trouver un exemple de JSON [ici](https://github.com/leroyguillaume/tps/blob/main/cities.json).
+### 3) Create a web service with the following specifications
 
-    Faîtes en sorte que votre service soit configurable avec les variables d'environnement suivantes :
-    - `CITY_API_ADDR`, qui correspond à l'adresse d'écoute de votre serveur HTTP (par défaut, `127.0.0.1`) ;
-    - `CITY_API_PORT`, qui correspond au port d'écoute de votre serveur HTTP (par défaut, `2022`) ;
-    - `CITY_API_DB_URL`, qui correspond à l'URL de connexion vers la base de données (le service doit planter si non specifié) ;
-    - `CITY_API_DB_USER`, qui correspond au nom d'utilisateur utilisé pour se connecter à la base de données (le service doit planter si non specifié) ;
-    - `CITY_API_DB_PWD`, qui correspond au mot de passe utilisé pour se connecter à l base de données (le service doit planter si non specifié).
+- `POST /city` with a JSON body should return a `201` status code and save the city in the database.
+- `GET /city` should return a `200` status code with the list of cities in JSON format.
+- `GET /_health` should return a `204` status code.
 
-4) Écrivez les tests suivants :
-    - un test qui s'assure que l'insertion dans la base de données fonctionne correctement ;
-    - un test qui s'assure que la récupération de la liste des villes fonctionne correctement ;
-    - un test qui s'assure que l'endpoint de healthcheck fonctionne correctement.
+### 4) Write the following tests
 
-5) Écrivez un fichier `Dockerfile` à la racine de votre projet. Testez que votre image Docker est correcte.
+- A test to ensure that the insertion into the database works correctly.
+- A test to ensure that retrieving the list of cities works correctly.
+- A test to ensure that the health check endpoint works correctly.
 
-6) Écrivez un workflow GitHub Actions `ci` pour qu'un linter soit exécuté à chaque push. [:heavy_check_mark:]
+### 5) Write a `Dockerfile` at the root of your project. Test that your Docker image is correct
 
-7) Modifiez le workflow pour que les tests s'exécutent à chaque push. [:heavy_check_mark:]
+### 6) Write a GitHub Actions workflow `ci` to run a linter on each push
 
-8) Modifiez le workflow pour qu'un build de l'image Docker soit réalisé à chaque push.
+### 7) Modify the workflow to run tests on each push
 
-9) Modifiez le workflow pour que l'image Docker soit push sur le DockerHub avec pour tag `city-api:latest`.
+### 8) Modify the workflow to build the Docker image on each push
 
-10) Écrivez un workflow GitHub Actions `release` qui, lorsqu'un tag au format `vX.X.X` soit poussé build et push l'image Docker avec un tag `city-api:X.X.X`.
+### 9) Modify the workflow to push the Docker image to DockerHub with the tag `city-api:latest`
 
-11) Modifiez le workflow pour qu'il scanne les CVEs présentes dans votre image.
+### 10) Write a GitHub Actions `release` workflow to build and push the Docker image with a tag `city-api:X.X.X` when a `vX.X.X` tag is pushed
 
-12) Installez k3s sur votre machine local.
+### 11) Modify the workflow to scan for CVEs in your Docker image
 
-13) Écrivez un chart Helm de déploiement de l'application.
+### 12) Install k3s on your local machine
 
-14) Déployez votre application dans votre k3s.
+### 13) Write a Helm chart to deploy the application. (not done)
 
-15) Ajouter un endpoint `/metrics` compatible Prometheus (des [libs](https://sysdig.com/blog/prometheus-metrics/) sont disponibles).
+### 14) Deploy your application in your k3s cluster. (not done)
 
-16) Ajoutez un Prometheus dans votre docker-compose qui scrappe les métriques de votre application.
+### 15) Add a `/metrics` endpoint compatible with Prometheus
 
-17) Ajoutez un Grafana dans votre docker-compose et créez y un dahsboard pour monitorer votre application.
+### 16) Add Prometheus to your `docker-compose` to scrape metrics from your application
+
+### 17) Add Grafana to your `docker-compose` and create a dashboard to monitor your application. (not done)
