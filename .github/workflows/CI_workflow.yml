@@ -66,14 +66,15 @@ jobs:
         echo "localhost:5432:city_api:city_api:${{ secrets.POSTGRES_PASSWORD }}" > ~/.pgpass
         chmod 600 ~/.pgpass
 
-    - name: Drop and recreate the database
+    - name: Reset the tables
       run: |
-        psql -h localhost -U city_api -c "DROP DATABASE IF EXISTS city_api;"
-        psql -h localhost -U city_api -c "CREATE DATABASE city_api;"
+        psql -h localhost -U city_api -d city_api -c "DROP TABLE IF EXISTS city CASCADE;"
+        psql -h localhost -U city_api -d city_api -c "DROP SEQUENCE IF EXISTS city_id_seq CASCADE;"
 
-    - name: Initialize the database
+    - name: Launching the database
       run: |
-        psql -h localhost -U city_api -d city_api -f path/to/init.sql
+        source .venv/bin/activate
+        ./init.sh
       env:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_HOST: localhost
