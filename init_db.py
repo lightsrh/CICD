@@ -1,5 +1,4 @@
 import os
-from dotenv import load_dotenv
 import psycopg2
 import json
 from dotenv import load_dotenv
