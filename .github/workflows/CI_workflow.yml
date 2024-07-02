@@ -51,6 +51,7 @@ jobs:
     - name: Setting up the environement
       run: |
         python -m venv .venv
+        source .venv/bin/activate
         pip install -r requirements.txt
 
     - name: Wait for PostgreSQL to be ready
@@ -70,9 +71,9 @@ jobs:
 
     - name: Launching the pytest
       run: |
+        source .venv/bin/activate
         echo "Test with pytest"
         pytest
 
     - name: 🎉 We are done !!
       run: echo "The end"
-
