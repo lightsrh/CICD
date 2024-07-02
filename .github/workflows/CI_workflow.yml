@@ -61,6 +61,11 @@ jobs:
         sleep 1
         done
 
+    - name: Setup .pgpass file
+      run: |
+        echo "localhost:5432:city_api:city_api:${{ secrets.POSTGRES_PASSWORD }}" > ~/.pgpass
+        chmod 600 ~/.pgpass
+
     - name: Reset the database
       run: |
         psql -h localhost -U city_api -c "DROP DATABASE IF EXISTS city_id_seq;"
