@@ -44,11 +44,16 @@ jobs:
       with:
         python-version: '3.12.2'  # Version qu'on utilise
 
-    - name: Setting up the environement
+    - name: Setting up the environment
       run: |
         python -m venv .venv
         source .venv/bin/activate
         pip install -r requirements.txt
+
+    - name: Verify psycopg2 installation
+      run: |
+        source .venv/bin/activate
+        pip show psycopg2-binary
 
     - name: Wait for PostgreSQL to be ready
       run: |
@@ -56,8 +61,10 @@ jobs:
         sleep 1
         done
 
-    - name: Lanching the database
-      run: ./init.sh
+    - name: Launching the database
+      run: |
+        source .venv/bin/activate
+        ./init.sh
       env:
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         POSTGRES_HOST: localhost
