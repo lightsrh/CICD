@@ -24,27 +24,6 @@ def create_table(conn, cur):
     # Commit the changes
     conn.commit()
 
-def create_sequence(conn, cur):
-    # SQL CREATE SEQUENCE statement
-    sql = "CREATE SEQUENCE IF NOT EXISTS city_id_seq"
-
-    # Execute the SQL statement
-    cur.execute(sql)
-
-    # Commit the changes
-    conn.commit()
-
-def create_table(conn, cur):
-
-    # SQL CREATE TABLE statement
-    sql = "CREATE TABLE IF NOT EXISTS city ( id SERIAL PRIMARY KEY, department_code VARCHAR(255) NOT NULL, insee_code VARCHAR(255), zip_code VARCHAR(255), name VARCHAR(255) NOT NULL, lat FLOAT, lon FLOAT)"
-
-    # Execute the SQL statement
-    cur.execute(sql)
-
-    # Commit the changes
-    conn.commit()
-
 def insert_data(conn, cur, data):
     for record in data:
         department_code = record["department_code"]
@@ -61,10 +40,6 @@ def insert_data(conn, cur, data):
         # Execute the SQL statement
         cur.execute(sql, values)
 load_dotenv()
-
-
-load_dotenv()
-
 
 conn = psycopg2.connect(
     host=os.environ.get('POSTGRES_HOST'),

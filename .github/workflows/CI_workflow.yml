@@ -50,26 +50,11 @@ jobs:
         source .venv/bin/activate
         pip install -r requirements.txt
 
-    - name: Verify psycopg2 installation
-      run: |
-        source .venv/bin/activate
-        pip show psycopg2-binary
-
     - name: Wait for PostgreSQL to be ready
       run: |
         until pg_isready -h localhost -p 5432; do
         sleep 1
         done
-
-    - name: Setup .pgpass file
-      run: |
-        echo "localhost:5432:city_api:city_api:${{ secrets.POSTGRES_PASSWORD }}" > ~/.pgpass
-        chmod 600 ~/.pgpass
-
-    - name: Reset the tables
-      run: |
-        psql -h localhost -U city_api -d city_api -c "DROP TABLE IF EXISTS city CASCADE;"
-        psql -h localhost -U city_api -d city_api -c "DROP SEQUENCE IF EXISTS city_id_seq CASCADE;"
 
     - name: Launching the database
       run: |
