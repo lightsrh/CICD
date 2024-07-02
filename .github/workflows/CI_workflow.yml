@@ -61,6 +61,11 @@ jobs:
         sleep 1
         done
 
+    - name: Reset the database
+      run: |
+        psql -h localhost -U city_api -c "DROP DATABASE IF EXISTS city_id_seq;"
+        psql -h localhost -U city_api -c "DROP DATABASE IF EXISTS city;"
+
     - name: Launching the database
       run: |
         source .venv/bin/activate
