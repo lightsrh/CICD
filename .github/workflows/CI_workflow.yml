@@ -68,8 +68,8 @@ jobs:
 
     - name: Reset the database
       run: |
-        psql -h localhost -U city_api -c "DROP DATABASE IF EXISTS city_id_seq;"
-        psql -h localhost -U city_api -c "DROP DATABASE IF EXISTS city;"
+        psql -h localhost -U city_api -c "DROP DATABASE IF EXISTS city_api;"
+        psql -h localhost -U city_api -c "CREATE DATABASE city_api;"
 
     - name: Launching the database
       run: |
